@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8020:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+      - memcached
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cruddb
+    ports:
+      - "3307:3306"
+
+  memcached:
+    image: memcached:alpine
+    ports:
+      - "11212:11211"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8040:80"
