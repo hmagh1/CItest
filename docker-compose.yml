@@ -10,8 +10,10 @@ services:
     volumes:
       - .:/var/www/html
     depends_on:
-      - mysql
-      - memcached
+      mysql:
+        condition: service_healthy
+      memcached:
+        condition: service_started
 
   mysql:
     image: mysql:8.0
@@ -23,6 +25,11 @@ services:
       MYSQL_DATABASE: cruddb
     ports:
       - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   memcached:
     image: memcached:alpine
