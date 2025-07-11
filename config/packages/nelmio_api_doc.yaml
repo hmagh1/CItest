@@ -1,0 +1,6 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: 'API Astreinte'
+            description: 'CRUD complet pour back Astreinte'
+            version: '1.0.0'

@@ -1,0 +1,8 @@
+services:
+    App\Service\MailerService: ~
+
+    App\Service\PdfGeneratorService:
+        arguments:
+            $snappyPdf: '@knp_snappy.pdf'
+
+    # Controllers are auto-registered by default
